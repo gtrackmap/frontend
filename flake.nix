@@ -1,5 +1,5 @@
 {
-  description = "trackmap frontend";
+  description = "gtrackmap frontend";
 
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
@@ -12,6 +12,7 @@
       (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
+          lib = pkgs.lib;
         in
         {
           packages.default = pnpm2nix.packages.${system}.mkPnpmPackage {
@@ -19,6 +20,13 @@
             version = "0.1.0";
             src = ./.;
             distDir = "build";
+
+            meta = with lib; {
+              description = "Frontend for gtrackmap";
+              homepage = "https://github.com/gtrackmap/frontend";
+              license = licenses.agpl3Plus;
+              maintainers = [ "Joakim Repomaa <nix@pimeys.pm>" ];
+            };
           };
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
